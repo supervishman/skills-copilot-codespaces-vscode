@@ -1,33 +1,34 @@
 // create web server
+// 1. require express
 const express = require('express');
+// 2. create an express application
 const app = express();
+// 3. create a port number
 const port = 3000;
 
-// Load comments data
-const comments = require('./comments.json');
+// 4. create an array of comments
+const comments = [
+  { username: 'Alice', comment: 'I love cats!' },
+  { username: 'Bob', comment: 'I love dogs!' },
+  { username: 'Charlie', comment: 'I love parrots!' }
+];
 
-// Route to get all comments
+// 5. create a route to get all comments
 app.get('/comments', (req, res) => {
   res.json(comments);
 });
 
-// Route to get comments by id
+// 6. create a route to get a comment by id
 app.get('/comments/:id', (req, res) => {
   const id = req.params.id;
-  const comment = comments.find(comment => comment.id === parseInt(id));
-  if (comment) {
-    res.json(comment);
+  if (id < comments.length) {
+    res.json(comments[id]);
   } else {
-    res.json({ message: `Comment with id ${id} not found` });
+    res.json({ error: 'Comment not found' });
   }
 });
 
-// Start server
+// 7. start the server
 app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
-// Now you can start the server by running the following command:
-// $ node comments.js
-// And you can access the comments data at http://localhost:3000/comments.
-// To get a specific comment, you can use the comment id, like http://localhost:3000/comments/1.
-// In the next section, we will create a simple frontend to display the
